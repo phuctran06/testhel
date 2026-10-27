@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hóa Đơn</title>
     <style>
-        /* Cài đặt chung cho toàn bộ trang */
+        /* Cài đặt chung */
         body {
             font-family: Arial, Helvetica, sans-serif;
             background-color: #f4f4f4;
@@ -16,20 +16,19 @@
             justify-content: center;
         }
 
-        /* Khung chứa hóa đơn (giả lập tờ giấy A4) */
         .invoice-container {
             background-color: #ffffff;
             width: 100%;
             max-width: 800px;
-            padding: 50px 60px;
+            padding: 40px 50px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             box-sizing: border-box;
         }
 
-        /* Phần Header thông tin công ty */
+        /* Header Công ty (Bên bán) */
         .header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
             line-height: 1.6;
         }
         
@@ -39,45 +38,45 @@
         }
         
         .header .company-name {
-            font-size: 18px;
+            font-size: 20px;
             font-weight: bold;
             text-transform: uppercase;
-            margin-bottom: 8px;
+            margin-bottom: 5px;
         }
 
-        /* Tiêu đề HÓA ĐƠN */
+        .header .tax-code {
+            font-weight: bold;
+        }
+
+        /* Tiêu đề */
         .title {
             text-align: center;
-            font-size: 38px;
+            font-size: 36px;
             font-weight: bold;
-            margin: 40px 0;
+            margin: 30px 0;
             letter-spacing: 2px;
         }
 
-        /* Phần thông tin khách hàng dùng Grid để thẳng hàng dấu hai chấm */
+        /* Thông tin chung */
         .info-grid {
             display: grid;
-            grid-template-columns: 120px 20px 1fr;
-            row-gap: 12px;
-            font-size: 16px;
+            grid-template-columns: 130px 20px 1fr;
+            row-gap: 10px;
+            font-size: 15px;
             margin-bottom: 30px;
-        }
-
-        .info-grid div:nth-child(3n+1) {
-            font-weight: normal;
         }
 
         /* Bảng chi tiết dịch vụ */
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             font-size: 15px;
         }
 
         th, td {
             border: 1px solid #000;
-            padding: 12px 10px;
+            padding: 10px;
             vertical-align: top;
         }
 
@@ -85,79 +84,142 @@
             font-weight: bold;
             text-align: center;
             vertical-align: middle;
+            background-color: #f9f9f9;
         }
 
-        /* Căn chỉnh nội dung trong bảng */
         .text-center { text-align: center; }
         .text-right { text-align: right; }
         
-        /* Danh sách cấu hình máy chủ */
         .config-list {
-            margin: 8px 0 0 0;
+            margin: 5px 0 0 0;
             padding-left: 20px;
         }
         
         .config-list li {
-            margin-bottom: 6px;
-            line-height: 1.5;
+            margin-bottom: 5px;
+            line-height: 1.4;
         }
 
-        /* Phần Footer chân trang */
-        .footer-note {
+        /* Phần tổng kết tiền (Tách khỏi bảng) */
+        .totals-section {
+            width: 50%;
+            margin-left: auto;
+            margin-bottom: 20px;
+            font-size: 15px;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 10px;
+        }
+
+        .total-row.grand-total {
+            font-weight: bold;
             font-size: 16px;
-            margin-bottom: 50px;
+            border-top: 1px solid #000;
+            border-bottom: 1px solid #000;
+            padding: 10px;
+            margin-top: 5px;
+        }
+
+        /* Số tiền bằng chữ */
+        .footer-note {
+            font-size: 15px;
+            margin-bottom: 25px;
+            font-style: italic;
+        }
+
+        /* Thông tin ngân hàng */
+        .bank-info {
+            font-size: 14px;
+            margin-bottom: 30px;
+            padding: 15px;
+            border: 1px dashed #666;
+            background-color: #fafafa;
+            line-height: 1.6;
+        }
+
+        .bank-info p { margin: 4px 0; }
+
+        /* Chữ ký */
+        .signatures {
+            display: flex;
+            justify-content: space-between;
+            text-align: center;
+            margin-top: 40px;
+            font-size: 15px;
+        }
+
+        .sig-box {
+            width: 45%;
+        }
+
+        .sig-box p {
+            margin: 5px 0;
+        }
+
+        .sig-box .sig-title {
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .sig-box .sig-note {
+            font-style: italic;
+            color: #555;
+            margin-bottom: 80px; /* Khoảng trống để ký và đóng dấu */
         }
 
         .thanks {
             text-align: center;
-            font-size: 14px;
+            font-size: 13px;
             font-style: italic;
-            color: #333;
-            line-height: 1.6;
+            color: #666;
+            margin-top: 30px;
         }
     </style>
 </head>
 <body>
 
     <div class="invoice-container">
-        <!-- HEADER (ĐÃ SỬA LẠI ĐỊA CHỈ VÀ TÊN CÔNG TY) -->
+        <!-- HEADER: THÔNG TIN BÊN BÁN -->
         <div class="header">
             <p class="company-name">CÔNG TY CỔ PHẦN NỀN TẢNG CÔNG NGHỆ VIỆT NAM</p>
-            <p>Nền tảng đào tạo kỹ sư AI & Dịch vụ công nghệ</p>
-            <p>Tầng 4 tòa nhà HUD3 Tower, số 121-123 đường Tô Hiệu, P. Nguyễn Trãi, Q. Hà Đông, TP. Hà Nội</p>
+            <p class="tax-code">Mã số thuế: 0108916694</p>
+            <p>Địa chỉ: Tầng 4 tòa nhà HUD3 Tower, số 121-123 đường Tô Hiệu, P. Nguyễn Trãi, Q. Hà Đông, TP. Hà Nội</p>
             <p>Email: contact@aidev.edu.vn</p>
         </div>
 
         <!-- TITLE -->
         <div class="title">HÓA ĐƠN</div>
 
-        <!-- THÔNG TIN CHUNG -->
+        <!-- THÔNG TIN BÊN MUA & GIAO DỊCH -->
         <div class="info-grid">
             <div>Ngày</div> <div>:</div> <div>25/10/2026</div>
             <div>Số</div> <div>:</div> <div>SP.D5.25.10.0127</div>
             <div>Người mua</div> <div>:</div> <div>Trần Chí Dũng</div>
-            <div>Khách hàng</div> <div>:</div> <div>Trần Chí Dũng</div>
+            <div>Đơn vị / Khách hàng</div> <div>:</div> <div>Cá nhân</div>
+            <!-- Bổ sung Địa chỉ và MST của Khách hàng -->
+            <div>Địa chỉ</div> <div>:</div> <div>Hà Nội</div>
             <div>Điện thoại</div> <div>:</div> <div>0931259844</div>
-            <!-- Mã số thuế -->
-            <div>Mã số thuế</div> <div>:</div> <div>0108916694</div>
+            <div>Mã số thuế</div> <div>:</div> <div>-</div>
             <div>Dịch vụ</div> <div>:</div> <div>Thuê máy chủ GPU - Dịch vụ hạ tầng AI</div>
         </div>
 
-        <!-- BẢNG CHI TIẾT -->
+        <!-- BẢNG CHI TIẾT (CHỈ CHỨA DỊCH VỤ) -->
         <table>
             <thead>
                 <tr>
                     <th width="8%">STT</th>
-                    <th width="45%">Tên dịch vụ / Cấu hình</th>
+                    <th width="50%">Tên dịch vụ / Cấu hình</th>
                     <th width="10%">SL</th>
-                    <th width="18%">Đơn giá<br>(đ/tháng)</th>
-                    <th width="19%">Thành tiền<br>(đ/tháng)</th>
+                    <th width="16%">Đơn giá<br>(đ/tháng)</th>
+                    <th width="16%">Thành tiền<br>(đ/tháng)</th>
                 </tr>
             </thead>
             <tbody>
-                <!-- Dòng 1: Thuê máy chủ -->
                 <tr>
-                    <td class="text-center" style="font-weight: bold; padding-top: 20px;">1</td>
+                    <td class="text-center" style="font-weight: bold; padding-top: 15px;">1</td>
                     <td>
                         <strong>Thuê máy chủ Standard</strong>
                         <ul class="config-list">
@@ -172,36 +234,56 @@
                     <td class="text-right">2.500.000</td>
                     <td class="text-right">2.500.000</td>
                 </tr>
-                
-                <!-- Dòng 2: VAT -->
-                <tr>
-                    <td></td>
-                    <td>VAT 10%</td>
-                    <td class="text-center"></td>
-                    <td class="text-right">250.000</td>
-                    <td class="text-right">250.000</td>
-                </tr>
-                
-                <!-- Dòng 3: Tổng cộng -->
-                <tr>
-                    <td></td>
-                    <td><strong>TỔNG CỘNG</strong></td>
-                    <td class="text-center">1</td>
-                    <td></td>
-                    <td class="text-right"><strong>2.750.000</strong></td>
-                </tr>
             </tbody>
         </table>
 
-        <!-- FOOTER -->
-        <div class="footer-note">
-            Bằng chữ: Hai triệu bảy trăm năm mươi nghìn đồng chẵn.
+        <!-- PHẦN TỔNG KẾT TIỀN (CHUẨN KẾ TOÁN) -->
+        <div class="totals-section">
+            <div class="total-row">
+                <span>Cộng tiền dịch vụ (chưa thuế):</span>
+                <span>2.500.000 đ</span>
+            </div>
+            <div class="total-row">
+                <span>Thuế GTGT (10%):</span>
+                <span>250.000 đ</span>
+            </div>
+            <div class="total-row grand-total">
+                <span>Tổng cộng tiền thanh toán:</span>
+                <span>2.750.000 đ</span>
+            </div>
         </div>
 
-        <!-- ĐÃ SỬA TÊN THƯƠNG HIỆU THEO ĐÚNG ĐĂNG KÝ -->
+        <!-- SỐ TIỀN BẰNG CHỮ -->
+        <div class="footer-note">
+            Số tiền bằng chữ: Hai triệu bảy trăm năm mươi nghìn đồng chẵn./
+        </div>
+
+        <!-- THÔNG TIN THANH TOÁN -->
+        <div class="bank-info">
+            <p><strong>Thông tin chuyển khoản:</strong></p>
+            <p>- Ngân hàng: Vietcombank - Chi nhánh Hà Nội</p>
+            <p>- Số tài khoản: 0123456789</p>
+            <p>- Chủ tài khoản: CÔNG TY CỔ PHẦN NỀN TẢNG CÔNG NGHỆ VIỆT NAM</p>
+            <p>- Nội dung CK: [Số hóa đơn] - [Tên khách hàng]</p>
+        </div>
+
+        <!-- CHỮ KÝ 2 BÊN -->
+        <div class="signatures">
+            <div class="sig-box">
+                <p class="sig-title">Người mua hàng</p>
+                <p class="sig-note">(Ký, họ tên)</p>
+                <p>Trần Chí Dũng</p>
+            </div>
+            <div class="sig-box">
+                <p class="sig-title">Người bán hàng</p>
+                <p class="sig-note">(Ký, đóng dấu)</p>
+                <!-- Khoảng trống để đóng dấu mộc đỏ -->
+            </div>
+        </div>
+
+        <!-- LỜI CẢM ƠN -->
         <div class="thanks">
             <p>Cảm ơn bạn đã tin tưởng và sử dụng dịch vụ của VIETPLATFORM!</p>
-            <p>Rất hân hạnh được đồng hành cùng bạn.</p>
         </div>
     </div>
 
